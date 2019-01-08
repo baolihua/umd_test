@@ -49,7 +49,7 @@ typedef struct kernel_event {
 
 
 
-typedef void* mvp_address_t;
+typedef __u64 mvp_address_t;
 
 typedef struct{
     mvp_address_t src_mem;
