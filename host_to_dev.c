@@ -8,15 +8,14 @@ int host_to_dev_test(int fd)
 {
     int ret = 0;
     unsigned int out;
-    mvp_ioctl_args_s args;
-    args.in_args = 4096;
-    args.out_data = &out;
+    mvp_alloc_args_s args;
+    args.size = 4096;
     unsigned int event_id;
     mem_copy_args_t mem_args;
     char str[] = "hello, ubuntu kernel, this is mvp!";
 
 #ifdef HOST_TO_DEV_DEBUG
-    printf("mem size is : %d\n", args.in_args);
+    printf("mem size is : %d\n", args.size);
 #endif
     ret = ioctl(fd, DRM_IOCTL_MVP_ALLOC_DEV_MEM, &args);
     if(ret < 0){
@@ -24,7 +23,7 @@ int host_to_dev_test(int fd)
        return -1;
     }
 #ifdef HOST_TO_DEV_DEBUG
-    printf("args.out_data = 0x%x\n",*((unsigned int *)args.out_data));
+    printf("args.handle = 0x%x\n",args.handle);
 #endif
     /*create event*/
     ret = ioctl(fd, DRM_IOCTL_MVP_CREATE_EVENT, &event_id);
@@ -78,8 +77,8 @@ int host_to_dev_test(int fd)
        printf("%s, %d, destroy event failed!\n", __FUNCTION__, __LINE__);
        return -1;
     }
-    if(args.out_data){
-      ret = ioctl(fd, DRM_IOCTL_MVP_FREE_DEV_MEM, args.out_data);
+    if(args.handle){
+      ret = ioctl(fd, DRM_IOCTL_MVP_FREE_DEV_MEM, &args.handle);
         if(ret < 0){
            printf("%s, %d, free buffer failed!\n", __FUNCTION__, __LINE__);
 		   return -1;

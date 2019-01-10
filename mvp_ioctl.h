@@ -40,7 +40,9 @@
 #include "mvp_event.h"
 #include "command_queue.h"
 
-
+#if !defined(__KERNEL__)
+#define __user
+#endif
 
 typedef struct attributes{
 	size_t max_work_group_size;
@@ -60,15 +62,10 @@ typedef struct attributes{
 }mvp_attributes_t;
 
 typedef struct ioctl_args{
-	int in_args;
-    int *out_data;
-}mvp_ioctl_args_s;
+	__u32 size;
+    __u32 handle;
+}mvp_alloc_args_s;
 
-typedef struct ioctl_init{
-	int ring_buffer_size;
-    int drm_object_size;
-	int handle;  //drm obj handle
-}mvp_drm_gem_init_s;
 
 struct pocl_context {
   size_t work_dim;
@@ -130,12 +127,10 @@ typedef struct map_addr{
 #define DRM_MVP_EVENT_DESTROY               0x09
 #define DRM_MVP_LAUNCH_KERNEL               0x0a
 #define DRM_MVP_MAP_DEVICE_ADDRESS          0x0b
-#define DRM_MVP_DRM_GEM_INIT                0x0c
-#define DRM_MVP_DRM_GEM_RELEASE             0x0d
 
 #define DRM_IOCTL_MVP_GET_DEVICE_COUNT       DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_GET_DEVICE_COUNT, int)
 #define DRM_IOCTL_MVP_GET_DEVICE_ATTRIBUTES  DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_GET_DEVICE_ATTRIBUTES, mvp_attributes_t)
-#define DRM_IOCTL_MVP_ALLOC_DEV_MEM          DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_ALLOC_DEV_MEM, mvp_ioctl_args_s)
+#define DRM_IOCTL_MVP_ALLOC_DEV_MEM          DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_ALLOC_DEV_MEM, mvp_alloc_args_s)
 #define DRM_IOCTL_MVP_FREE_DEV_MEM           DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_FREE_DEV_MEM, int)
 #define DRM_IOCTL_MVP_COPY_HOST_TO_DEV       DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_COPY_HOST_TO_DEV, mem_copy_args_t)
 #define DRM_IOCTL_MVP_COPY_DEV_TO_HOST       DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_COPY_DEV_TO_HOST, mem_copy_args_t)
@@ -145,8 +140,6 @@ typedef struct map_addr{
 #define DRM_IOCTL_MVP_EVENT_DESTROY          DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_EVENT_DESTROY, unsigned int)
 #define DRM_IOCTL_MVP_LAUNCH_KERNEL          DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_LAUNCH_KERNEL, launch_kernel_args_t)
 #define DRM_IOCTL_MVP_MAP_DEVICE_ADDRESS     DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_MAP_DEVICE_ADDRESS, mvp_map_addr)
-#define DRM_IOCTL_MVP_DRM_GEM_INIT           DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_DRM_GEM_INIT, mvp_drm_gem_init_s)
-#define DRM_IOCTL_MVP_DRM_GEM_RELEASE        DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_DRM_GEM_RELEASE, int)
 
 #endif
 

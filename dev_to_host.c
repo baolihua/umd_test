@@ -8,10 +8,8 @@ int dev_to_host_test(int fd)
 {
 		int ret = 0;
 		
-		unsigned int out;
-		mvp_ioctl_args_s args;
-		args.in_args = 4096;
-		args.out_data = &out;
+		mvp_alloc_args_s args;
+		args.size = 4096;
 		
 		unsigned int event_id;
 
@@ -28,7 +26,7 @@ int dev_to_host_test(int fd)
 		}
 		
 #ifdef DEV_TO_HOST_DEBUG
-		printf("args.out_data = 0x%x\n",*((unsigned int *)args.out_data));
+		printf("args.handle = 0x%x\n",args.handle);
 #endif
 		/*create event*/
 		ret = ioctl(fd, DRM_IOCTL_MVP_CREATE_EVENT, &event_id);
@@ -42,7 +40,7 @@ int dev_to_host_test(int fd)
 #endif
 	
 	   /*test the device copy to device*/
-	   mem_args.src_mem = out;
+	   mem_args.src_mem = args.handle;
 	   mem_args.dst_mem = (__u64)str;
 	   mem_args.event_id = event_id;
 	   mem_args.size = 35;
@@ -82,8 +80,8 @@ int dev_to_host_test(int fd)
 		   printf("%s, %d, destroy event failed!\n", __FUNCTION__, __LINE__);
 		   return -1;
 		}
-		if(args.out_data){
-		  ret = ioctl(fd, DRM_IOCTL_MVP_FREE_DEV_MEM, args.out_data);
+		if(args.handle){
+		  ret = ioctl(fd, DRM_IOCTL_MVP_FREE_DEV_MEM, &args.handle);
 			if(ret < 0){
 			   printf("%s, %d, free buffer failed!\n", __FUNCTION__, __LINE__);
 			   return -1;
