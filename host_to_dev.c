@@ -38,12 +38,11 @@ int host_to_dev_test(int fd)
 
    /*test the host copy to device*/
    mem_args.src_mem = (__u64)str;
-   mem_args.dst_mem = out;
+   mem_args.dst_mem = args.handle;
    mem_args.event_id = event_id;
    mem_args.size = sizeof(str);
    
 #ifdef HOST_TO_DEV_DEBUG
-   //printf("src_mem = %s\n", (char *)(mem_args.src_mem));   
    printf("str = %p\n", str);   
    printf("dst_mem = %lld\n", (mem_args.dst_mem));   
    printf("event_id = %d\n", mem_args.event_id);   
