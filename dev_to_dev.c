@@ -95,8 +95,8 @@ int dev_to_dev_test(int fd)
 			}
 		}
 		
-		if(args_1.handle){
-		  ret = ioctl(fd, DRM_IOCTL_MVP_FREE_DEV_MEM, &args_1.handle);
+		if(args_2.handle){
+		  ret = ioctl(fd, DRM_IOCTL_MVP_FREE_DEV_MEM, &args_2.handle);
 			if(ret < 0){
 			   printf("%s, %d, free buffer failed!\n", __FUNCTION__, __LINE__);
 			   return -1;
