@@ -34,6 +34,9 @@ int full_test(int fd)
 		printf("%s, %d, malloc mem failed!\n", __FUNCTION__, __LINE__);
 	}
 
+	printf("%s, %d, src = %p\n", __FUNCTION__, __LINE__, src);
+	printf("%s, %d, dst = %p\n", __FUNCTION__, __LINE__, dst);
+	
 	str_len = strlen(str);
 	memcpy(src, str, str_len);
 	memset(src + str_len, 'a', size); 
