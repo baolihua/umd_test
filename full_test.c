@@ -16,6 +16,7 @@ int full_test(int fd)
 	arg_1.size = mem_size;
 	/*event*/
 	int event_id = 0;
+	event_info events;
 
     mem_copy_args_t mem_arg;
 
@@ -72,6 +73,15 @@ int full_test(int fd)
 		return -1;
 	}
 
+	/*set event new status*/
+	events.event_id = event_id;
+	events.event_status = 1;
+	ret = ioctl(fd, DRM_IOCTL_MVP_GET_EVENT_STATUS, &events);
+	if(ret < 0){
+		printf("%s, %d, copy dev to dev failed!\n", __FUNCTION__, __LINE__);
+		return -1;
+	}
+
 	/*dev to dev*/
 	mem_arg_dev_to_dev.src_mem = arg_0.handle;
 	mem_arg_dev_to_dev.dst_mem = arg_1.handle;
@@ -81,12 +91,22 @@ int full_test(int fd)
 	if(ret < 0){
 		printf("%s, %d, copy dev to dev failed!\n", __FUNCTION__, __LINE__);
 		return -1;
-	 }
+	}
+
 
 	/*wait*/
 	ret = ioctl(fd, DRM_IOCTL_MVP_WAIT_EVENT_DONE, &event_id);
 	if(ret < 0){
 		printf("%s, %d, event done failed!\n", __FUNCTION__, __LINE__);
+		return -1;
+	}
+
+	/*set event new status*/
+	events.event_id = event_id;
+	events.event_status = 1;
+	ret = ioctl(fd, DRM_IOCTL_MVP_GET_EVENT_STATUS, &events);
+	if(ret < 0){
+		printf("%s, %d, copy dev to dev failed!\n", __FUNCTION__, __LINE__);
 		return -1;
 	}
 

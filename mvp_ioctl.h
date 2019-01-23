@@ -115,6 +115,11 @@ typedef struct map_addr{
 	void *out_map_addr;
 }mvp_map_addr;
 
+typedef struct{
+	unsigned int event_id;
+	unsigned int event_status;
+}event_info;
+
 #define DRM_MVP_GET_DEVICE_COUNT		    0x00
 #define DRM_MVP_GET_DEVICE_ATTRIBUTES		0x01
 #define DRM_MVP_ALLOC_DEV_MEM       		0x02
@@ -127,6 +132,10 @@ typedef struct map_addr{
 #define DRM_MVP_EVENT_DESTROY               0x09
 #define DRM_MVP_LAUNCH_KERNEL               0x0a
 #define DRM_MVP_MAP_DEVICE_ADDRESS          0x0b
+#define DRM_MVP_GET_DEVICE_PADDR            0x0c
+#define DRM_MVP_DUMP_REG_MEM                0x1d
+#define DRM_MVP_EVENT_GET_STATUS            0x1e
+#define DRM_MVP_EVENT_SET_STATUS            0x1f
 
 #define DRM_IOCTL_MVP_GET_DEVICE_COUNT       DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_GET_DEVICE_COUNT, int)
 #define DRM_IOCTL_MVP_GET_DEVICE_ATTRIBUTES  DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_GET_DEVICE_ATTRIBUTES, mvp_attributes_t)
@@ -140,6 +149,9 @@ typedef struct map_addr{
 #define DRM_IOCTL_MVP_EVENT_DESTROY          DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_EVENT_DESTROY, unsigned int)
 #define DRM_IOCTL_MVP_LAUNCH_KERNEL          DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_LAUNCH_KERNEL, launch_kernel_args_t)
 #define DRM_IOCTL_MVP_MAP_DEVICE_ADDRESS     DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_MAP_DEVICE_ADDRESS, mvp_map_addr)
-
+#define DRM_IOCTL_MVP_GET_DEVICE_PADDR       DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_GET_DEVICE_PADDR, get_dev_paddr_t)
+#define DRM_IOCTL_MVP_DUMP_REG_MEM           DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_DUMP_REG_MEM, dump_reg_mem_t)
+#define DRM_IOCTL_MVP_GET_EVENT_STATUS       DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_EVENT_GET_STATUS, event_info)
+#define DRM_IOCTL_MVP_SET_EVENT_STATUS       DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_EVENT_SET_STATUS, event_info)
 #endif
 
