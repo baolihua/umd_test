@@ -156,10 +156,30 @@ int full_test(int fd)
 		return -1;
 	}
 
+	/*compare data*/
 	ret = strncmp(src, dst, mem_size);
 	if(ret){
 		printf("%s, %d, failed!\n", __FUNCTION__, __LINE__);
 		return -1;
+	}
+
+	/*free mem*/
+	ret = ioctl(fd, DRM_IOCTL_MVP_FREE_DEV_MEM, &arg_0.handle);
+	if(ret < 0){
+		printf("%s, %d, mem free failed, i = %d\n", __FUNCTION__, __LINE__, i);
+		return ret;
+	}
+
+	ret = ioctl(fd, DRM_IOCTL_MVP_FREE_DEV_MEM, &arg_1.handle);
+	if(ret < 0){
+		printf("%s, %d, mem free failed, i = %d\n", __FUNCTION__, __LINE__, i);
+		return ret;
+	}
+	/*free event*/
+	ret = ioctl(fd, DRM_IOCTL_MVP_EVENT_DESTROY, &event_id);
+	if(ret < 0){
+	   printf("%s, %d, free event failed!\n", __FUNCTION__, __LINE__);
+	   return -1;  
 	}
 	return 0;
 }
