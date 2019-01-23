@@ -166,13 +166,13 @@ int full_test(int fd)
 	/*free mem*/
 	ret = ioctl(fd, DRM_IOCTL_MVP_FREE_DEV_MEM, &arg_0.handle);
 	if(ret < 0){
-		printf("%s, %d, mem free failed, i = %d\n", __FUNCTION__, __LINE__, i);
+		printf("%s, %d, mem free failed\n", __FUNCTION__, __LINE__);
 		return ret;
 	}
 
 	ret = ioctl(fd, DRM_IOCTL_MVP_FREE_DEV_MEM, &arg_1.handle);
 	if(ret < 0){
-		printf("%s, %d, mem free failed, i = %d\n", __FUNCTION__, __LINE__, i);
+		printf("%s, %d, mem free failed\n", __FUNCTION__, __LINE__);
 		return ret;
 	}
 	/*free event*/
