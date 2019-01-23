@@ -43,11 +43,15 @@ int full_test(int fd)
 		return ret;
 	}
 
+	printf("%s, %d, arg_0.handle = %d\n", __FUNCTION__, __LINE__, arg_0.handle);
+
 	ret = ioctl(fd, DRM_IOCTL_MVP_ALLOC_DEV_MEM, &arg_1);
 	if(ret < 0){
 		printf("%s, %d, mem alloc failed\n", __FUNCTION__, __LINE__);
 		return ret;
 	}
+	
+	printf("%s, %d, arg_1.handle = %d\n", __FUNCTION__, __LINE__, arg_1.handle);
 
 	ret = ioctl(fd, DRM_IOCTL_MVP_CREATE_EVENT, &event_id);
 	if(ret < 0){
@@ -55,16 +59,18 @@ int full_test(int fd)
 	   return -1;  
 	}
 
-	mem_arg.src_mem = (__u64)src;
-	mem_arg.dst_mem = arg_0.handle;
-	mem_arg.event_id = event_id;
+	printf("%s, %d, event_id = %d\n", __FUNCTION__, __LINE__, event_id);
+
+	mem_arg.src_mem = src;
+	mem_arg.dst_mem = &arg_0.handle;
+	mem_arg.event.event_id = event_id;
 	mem_arg.size = mem_size;
 	/*host to dev*/
 	ret = ioctl(fd, DRM_IOCTL_MVP_COPY_HOST_TO_DEV, &mem_arg);
 	if(ret < 0){
 		printf("%s, %d, alloc mem failed!\n", __FUNCTION__, __LINE__);
 		return -1;
-	 }
+	}
 
 	/*wait*/
 	ret = ioctl(fd, DRM_IOCTL_MVP_WAIT_EVENT_DONE, &event_id);
@@ -83,9 +89,9 @@ int full_test(int fd)
 	}
 
 	/*dev to dev*/
-	mem_arg_dev_to_dev.src_mem = arg_0.handle;
-	mem_arg_dev_to_dev.dst_mem = arg_1.handle;
-	mem_arg_dev_to_dev.event_id = event_id;
+	mem_arg_dev_to_dev.src_mem = &arg_0.handle;
+	mem_arg_dev_to_dev.dst_mem = &arg_1.handle;
+	mem_arg_dev_to_dev.event.event_id = event_id;
 	mem_arg_dev_to_dev.size = mem_size;
 	ret = ioctl(fd, DRM_IOCTL_MVP_COPY_DEV_TO_DEV, &mem_arg_dev_to_dev);
 	if(ret < 0){
@@ -111,9 +117,9 @@ int full_test(int fd)
 	}
 
 	/*dev to host*/
-	mem_arg_dev_to_host.src_mem = arg_1.handle;
-	mem_arg_dev_to_host.dst_mem = (__u64)dst;
-	mem_arg_dev_to_host.event_id = event_id;
+	mem_arg_dev_to_host.src_mem = &arg_1.handle;
+	mem_arg_dev_to_host.dst_mem = dst;
+	mem_arg_dev_to_host.event.event_id = event_id;
 	mem_arg_dev_to_host.size = mem_size;
 	ret = ioctl(fd, DRM_IOCTL_MVP_COPY_DEV_TO_HOST, &mem_arg_dev_to_host);
 	if(ret < 0){

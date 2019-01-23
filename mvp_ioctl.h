@@ -120,6 +120,21 @@ typedef struct{
 	unsigned int event_status;
 }event_info;
 
+typedef struct get_dev_paddr{
+	void* handle;
+	void* paddr;
+}get_dev_paddr_t;
+
+
+//just for debug tools
+typedef struct dump_reg_mem{
+  unsigned int start_addr;
+  unsigned int size;
+  void* user_addr;
+  unsigned char type; //0 for mem dump , 1 for reg dump
+}dump_reg_mem_t;
+
+
 #define DRM_MVP_GET_DEVICE_COUNT		    0x00
 #define DRM_MVP_GET_DEVICE_ATTRIBUTES		0x01
 #define DRM_MVP_ALLOC_DEV_MEM       		0x02
@@ -145,7 +160,7 @@ typedef struct{
 #define DRM_IOCTL_MVP_COPY_DEV_TO_HOST       DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_COPY_DEV_TO_HOST, mem_copy_args_t)
 #define DRM_IOCTL_MVP_COPY_DEV_TO_DEV        DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_COPY_DEV_TO_DEV, mem_copy_args_t)
 #define DRM_IOCTL_MVP_CREATE_EVENT           DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_CREATE_EVENT, unsigned int)
-#define DRM_IOCTL_MVP_WAIT_EVENT_DONE        DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_WAIT_EVENT_DONE, int)
+#define DRM_IOCTL_MVP_WAIT_EVENT_DONE        DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_WAIT_EVENT_DONE, unsigned int)
 #define DRM_IOCTL_MVP_EVENT_DESTROY          DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_EVENT_DESTROY, unsigned int)
 #define DRM_IOCTL_MVP_LAUNCH_KERNEL          DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_LAUNCH_KERNEL, launch_kernel_args_t)
 #define DRM_IOCTL_MVP_MAP_DEVICE_ADDRESS     DRM_IOWR(DRM_COMMAND_BASE + DRM_MVP_MAP_DEVICE_ADDRESS, mvp_map_addr)

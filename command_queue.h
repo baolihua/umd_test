@@ -30,9 +30,9 @@ typedef enum{
 typedef void*  mvp_device_ptr_t;
 
 typedef enum{
-    SYNC = 0,
-    ASYNC = 1,
-}sync_t;
+    USER_SYNC = 0,
+    USER_ASYNC = 1,
+}user_sync_t;
 
 
 typedef enum kernel_event_status_s{
@@ -49,14 +49,32 @@ typedef struct kernel_event {
 
 
 
-typedef __u64 mvp_address_t;
+typedef void* mvp_address_t;
+
+typedef enum mvp_user_event_status_s{
+    MVP_USER_EVENT_STATUS_PENDING = 0,
+    MVP_USER_EVENT_STATUS_RUNNIG = 1,
+    MVP_USER_EVENT_STATUS_FINISH = 2,
+}mvp_user_event_status_t;
+
+typedef enum mvp_user_event_type_s{
+    MVP_USER_EVENT_DEFAULT = 0,
+}mvp_user_event_type_t;
+
+
+typedef struct mvp_user_event_s{
+    mvp_user_event_status_t event_status;
+    mvp_user_event_type_t event_type;
+    uint32_t event_id;
+} mvp_user_event_t;
+
 
 typedef struct{
     mvp_address_t src_mem;
     mvp_address_t dst_mem;
     size_t size;
-    sync_t sysc_flag;
-    unsigned int event_id;
+    user_sync_t sysc_flag;
+    mvp_user_event_t event;
 }mem_copy_args_t;
 
 

@@ -37,19 +37,19 @@ int host_to_dev_test(int fd)
 #endif
 
    /*test the host copy to device*/
-   mem_args.src_mem = (__u64)str;
-   mem_args.dst_mem = args.handle;
-   mem_args.event_id = event_id;
+   mem_args.src_mem = str;
+   mem_args.dst_mem = &args.handle;
+   mem_args.event.event_id = event_id;
    mem_args.size = sizeof(str);
    
 #ifdef HOST_TO_DEV_DEBUG
    printf("str = %p\n", str);   
-   printf("dst_mem = %lld\n", (mem_args.dst_mem));   
-   printf("event_id = %d\n", mem_args.event_id);   
+   printf("dst_mem = %p\n", (mem_args.dst_mem));   
+   printf("event_id = %d\n", mem_args.event.event_id);   
    printf("size = %ld\n", mem_args.size);   
    printf("&mem_args = %p\n", &mem_args);   
-   printf("src_mem = %lld\n", mem_args.src_mem);   
-   printf("dst_mem = %lld\n", mem_args.dst_mem);  
+   printf("src_mem = %p\n", mem_args.src_mem);   
+   printf("dst_mem = %p\n", mem_args.dst_mem);  
 #endif
    
    ret = ioctl(fd, DRM_IOCTL_MVP_COPY_HOST_TO_DEV, &mem_args);
