@@ -55,6 +55,8 @@ int full_test(int fd)
 	memset(src + str_len + 13*size, '7', size); 
 	memset(src + str_len + 14*size, '8', size); 
 	memset(src + str_len + 15*size, '9', mem_size-str_len - 15*size);
+
+	memset(dst, '0', mem_size);
 	
 
 	ret = ioctl(fd, DRM_IOCTL_MVP_ALLOC_DEV_MEM, &arg_0);
