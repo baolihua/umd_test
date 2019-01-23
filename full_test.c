@@ -8,6 +8,7 @@ int full_test(int fd)
 	int mem_size = 1024 * 1024;
 	int str_len;
 	int ret = 0;
+	int size = 1024 * 64;
 
 	/*mem*/
 	mvp_alloc_args_s arg_0;
@@ -35,7 +36,23 @@ int full_test(int fd)
 
 	str_len = strlen(str);
 	memcpy(src, str, str_len);
-	memset(src + str_len, 1, mem_size - str_len);  
+	memset(src + str_len, 'a', size); 
+	memset(src + str_len + 1*size, 'b', size); 
+	memset(src + str_len + 2*size, 'c', size); 
+	memset(src + str_len + 3*size, 'd', size); 
+	memset(src + str_len + 4*size, 'e', size); 
+	memset(src + str_len + 5*size, 'f', size); 
+	memset(src + str_len + 6*size, 'g', size);
+	memset(src + str_len + 7*size, '1', size); 
+	memset(src + str_len + 8*size, '2', size); 
+	memset(src + str_len + 9*size, '3', size); 
+	memset(src + str_len + 10*size, '4', size); 
+	memset(src + str_len + 11*size, '5', size); 
+	memset(src + str_len + 12*size, '6', size);
+	memset(src + str_len + 13*size, '7', size); 
+	memset(src + str_len + 14*size, '8', size); 
+	memset(src + str_len + 15*size, '9', mem_size-str_len - 15*size);
+	
 
 	ret = ioctl(fd, DRM_IOCTL_MVP_ALLOC_DEV_MEM, &arg_0);
 	if(ret < 0){
@@ -82,7 +99,7 @@ int full_test(int fd)
 	/*set event new status*/
 	events.event_id = event_id;
 	events.event_status = 1;
-	ret = ioctl(fd, DRM_IOCTL_MVP_GET_EVENT_STATUS, &events);
+	ret = ioctl(fd, DRM_IOCTL_MVP_SET_EVENT_STATUS, &events);
 	if(ret < 0){
 		printf("%s, %d, copy dev to dev failed!\n", __FUNCTION__, __LINE__);
 		return -1;
@@ -110,7 +127,7 @@ int full_test(int fd)
 	/*set event new status*/
 	events.event_id = event_id;
 	events.event_status = 1;
-	ret = ioctl(fd, DRM_IOCTL_MVP_GET_EVENT_STATUS, &events);
+	ret = ioctl(fd, DRM_IOCTL_MVP_SET_EVENT_STATUS, &events);
 	if(ret < 0){
 		printf("%s, %d, copy dev to dev failed!\n", __FUNCTION__, __LINE__);
 		return -1;
