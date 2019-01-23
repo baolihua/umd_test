@@ -7,15 +7,16 @@
 #include "host_to_dev.h"
 #include "dev_to_dev.h"
 #include "dev_to_host.h"
+#include "full_test.h"
 
-#define DEVICE_DIR "/dev/dri/renderD129"
+#define DEVICE_DIR "/dev/dri/renderD128"
 
 int main(void)
 {
 	int ret = 0;
     int fd = open(DEVICE_DIR, O_RDWR);
     if(fd < 0){
-        printf("open device: /dev/dri/renderD129  failed!\n");
+        printf("open device: /dev/dri/renderD128  failed!\n");
 		return -1;
     }
 
@@ -53,6 +54,13 @@ int main(void)
 		printf("dev_to_host_test failed!\n");
 	}else{
 		printf("dev_to_host_test succssful!\n");
+	}
+
+	ret = full_test(fd);
+	if(ret < 0){
+		printf("full_test failed!\n");
+	}else{
+		printf("full_test succssful!\n");
 	}
 	
     close(fd);
